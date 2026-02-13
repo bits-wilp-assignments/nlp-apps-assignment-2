@@ -1,0 +1,104 @@
+# ==============================
+# Preprocessing
+# ==============================
+preprocessing:
+  input_files: "data/Twitter_Data.csv"
+
+
+# ==============================
+# Data Columns
+# ==============================
+data:
+  text_column: "clean_text"
+  label_column: "category"
+
+
+# ==============================
+# Model Configuration
+# ==============================
+model:
+  embedder_name: "TfidfVectorizer (scikit-learn)"
+  vocab_size: 20000
+  ngram_range: [1, 2]
+
+
+# ==============================
+# Training Configuration
+# ==============================
+training:
+  test_size: 0.2
+  random_state: 42
+  class_weight: "balanced"
+  penalty: "l2"
+  C: 0.1
+  max_iter: 2000
+
+
+# ==============================
+# Prediction Settings
+# ==============================
+predictor:
+  label_map:
+    1: "Positive"
+    0: "Neutral"
+    -1: "Negative"
+  train_live: true   # Auto-train on API startup
+
+
+# ==============================
+# Batch Processing
+# ==============================
+batch:
+  add_prob_columns: true
+  text_columns: ["text", "comment", "review", "content", "clean_text"]
+  supported_formats: ["csv", "xlsx", "xls"]
+
+
+# ==============================
+# API Server Configuration
+# ==============================
+server:
+  host: "0.0.0.0"
+  port: 8000
+  title: "SK Sentiment API (Live Training)"
+
+
+# ==============================
+# CORS Configuration
+# ==============================
+cors:
+  allow_origins: ["http://localhost:8501"]
+  allow_methods: ["*"]
+  allow_headers: ["*"]
+
+
+# ==============================
+# Frontend (Streamlit)
+# ==============================
+app:
+  name: "Sentiment Classifier"
+  layout: "wide"
+
+ui:
+  single_text_height: 150
+  batch_file_types: ["csv", "xlsx"]
+  batch_help_text: "File must contain a text column such as: text, comment, review, content, or clean_text"
+  top_n_confident: 10
+
+
+# ==============================
+# Metrics Display
+# ==============================
+metrics:
+  columns: 4
+  labels: ["Total", "Positive", "Negative", "Neutral"]
+
+
+# ==============================
+# API Client Settings
+# ==============================
+api:
+  base_url: "http://localhost:8000"
+  timeout_single: 10
+  timeout_batch: 60
+  health_timeout: 5
