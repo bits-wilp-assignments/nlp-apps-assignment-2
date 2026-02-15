@@ -1,6 +1,7 @@
 import pandas as pd
 from src.util.logging_util import get_logger
 from src.core.training import MLClassifierTrainer
+from src.core.preprocessing import SentimentDataPreprocessor
 
 
 class LRegPredictor:
@@ -14,6 +15,7 @@ class LRegPredictor:
         self.mlTrainer = MLClassifierTrainer(self.data_file_paths, self.stop_words_lang)
         self.vectorizer, self.model, self.metrics = self.mlTrainer.train_logistic_reg_model(**kwargs)
         self.label_map = label_map
+        self.preprocessor = SentimentDataPreprocessor(self.data_file_paths, self.stop_words_lang)
         self.logger.info(f"LRPredictor initialized with model accuracy: {self.metrics['accuracy']:.4f}")
 
 
@@ -25,7 +27,9 @@ class LRegPredictor:
             dict: A dictionary containing the predicted category and probabilities for each class.
         """
         self.logger.debug(f"Predicting single text: {text[:10]}...")  # Log first 10 chars
-        vector = self.vectorizer.transform([text])
+        preprocessed_tokens = self.preprocessor.preprocess_text(text)
+        preprocessed_text = " ".join(preprocessed_tokens)
+        vector = self.vectorizer.transform([preprocessed_text])
         pred_num = int(self.model.predict(vector)[0])
         probs = self.model.predict_proba(vector)[0]
 
@@ -48,7 +52,8 @@ class LRegPredictor:
             pd.DataFrame: A DataFrame containing the original texts, predicted categories, and optionally probabilities.
         """
         self.logger.debug(f"Predicting batch of size: {len(texts)}")
-        vectors = self.vectorizer.transform(texts)
+        preprocessed_texts = [" ".join(self.preprocessor.preprocess_text(text)) for text in texts]
+        vectors = self.vectorizer.transform(preprocessed_texts)
         preds_num = self.model.predict(vectors)
         probs = self.model.predict_proba(vectors)
 
