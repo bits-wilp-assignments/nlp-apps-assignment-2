@@ -132,7 +132,7 @@ This will install all required packages including:
 The application requires specific NLTK resources. Download them using:
 
 ```bash
-python -c "import nltk; nltk.download('punkt'); nltk.download('stopwords'); nltk.download('wordnet')"
+python -c "import nltk; nltk.download('punkt'); nltk.download('punkt_tab'); nltk.download('stopwords'); nltk.download('wordnet')"
 ```
 
 Alternatively, these resources will be downloaded automatically when the application runs for the first time.
