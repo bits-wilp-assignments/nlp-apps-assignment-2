@@ -25,13 +25,13 @@ sentiment-analysis-app/
 │   │   ├── app_config.py        # Backend configuration
 │   │   └── ui_config.py         # Frontend configuration
 │   ├── core/
-│   │   ├── data_loader.py       # Dataset loading utilities
 │   │   ├── preprocessing.py     # Text preprocessing functions
 │   │   └── training.py          # Model training logic
 │   ├── services/
 │   │   └── inference.py         # Prediction service
 │   └── util/
-│       └── logging_util.py      # Logging configuration
+│       ├── data_loader.py       # Dataset loading utilities
+|       └── logging_util.py      # Logging configuration
 ├── sentiment_app.py             # FastAPI backend application
 ├── ui_app.py                    # Streamlit frontend application
 ├── requirements.txt             # Python dependencies
