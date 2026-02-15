@@ -127,9 +127,17 @@ This will install all required packages including:
 - NLTK (NLP)
 - And other dependencies
 
-NLTK data (stopwords, punkt, wordnet) will be downloaded automatically when the application runs for the first time.
+### 5. Download NLTK Data
 
-### 5. Verify Installation
+The application requires specific NLTK resources. Download them using:
+
+```bash
+python -c "import nltk; nltk.download('punkt'); nltk.download('stopwords'); nltk.download('wordnet')"
+```
+
+Alternatively, these resources will be downloaded automatically when the application runs for the first time.
+
+### 6. Verify Installation
 
 ```bash
 # Check Python version
